@@ -1,6 +1,6 @@
 import { z } from "@hono/zod-openapi";
 
-export const MessageShema = z.object({
+export const MessageSchema = z.object({
     code: z.number().openapi({
         example: 400,
     }),
