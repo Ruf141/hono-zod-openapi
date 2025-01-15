@@ -59,7 +59,23 @@ const getTodoRoute = createRoute({
   tags: ["todo"],
 });
 
-app.openapi(getTodoRoute, (c) => {
-  const { id } = c.req.valid("param");
-  const todo = todoList.find((todo) => todo.id === id);
-});
+app.openapi(
+  getTodoRoute,
+  (c) => {
+    const { id } = c.req.valid("param");
+    const todo = todoList.find((todo) => todo.id === id);
+    if (!todo) return c.json({ code: 404, message: "Not Found" }, 404);
+    return c.json(todo, 200);
+  },
+  (result, c) => {
+    if (!result.success) {
+      return c.json(
+        {
+          code: 400,
+          message: "Validation Error",
+        },
+        400,
+      );
+    }
+  },
+);
